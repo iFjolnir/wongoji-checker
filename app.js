@@ -214,15 +214,20 @@ const elStats = document.getElementById("stats");
 const elGrid = document.getElementById("grid");
 
 function updateBoxSizeForViewport(columns) {
-  const grid = document.getElementById("grid");
-  if (!grid) return;
+  const panel = document.querySelector(".panel.output");
+  if (!panel) return;
 
-  const rect = grid.getBoundingClientRect();
+  const rect = panel.getBoundingClientRect();
 
-  // Safety buffer for borders + rounding + mobile weirdness
-  const SAFETY = 4;
+  // horizontal padding applied to panel.output
+  const style = getComputedStyle(panel);
+  const paddingLeft = parseFloat(style.paddingLeft) || 0;
+  const paddingRight = parseFloat(style.paddingRight) || 0;
 
-  const usableWidth = rect.width - SAFETY;
+  const SAFETY = 2;
+
+  const usableWidth =
+    rect.width - paddingLeft - paddingRight - SAFETY;
 
   const boxSize = Math.floor(usableWidth / columns);
 
@@ -233,6 +238,7 @@ function updateBoxSizeForViewport(columns) {
     `${clamped}px`
   );
 }
+
 
 
 function render() {
