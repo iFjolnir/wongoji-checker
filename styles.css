@@ -108,9 +108,11 @@ h1 {
 
 .panel.output {
   border: none;
-  padding: 0;
+  padding-inline: 16px;
+  padding-block: 0;
   border-radius: 0;
 }
+
 
 textarea {
   width: 100%;
@@ -211,6 +213,5 @@ textarea {
   justify-content: flex-start;
   padding-left: 4px;
 }
-
 
 
