@@ -1,18 +1,29 @@
+/* =========================================================
+   GLOBAL BASE / RESET
+   ========================================================= */
+
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
 
-:root {
-  --box: 28px;
-  --gap: 2px;
-}
-
 body {
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  margin: 16px;
+  margin: 0;
+  padding: 16px;
   line-height: 1.35;
+}
+
+
+/* =========================================================
+   STRUCTURE / MEASURE (DO NOT STYLE HERE)
+   These affect layout math and box alignment
+   ========================================================= */
+
+:root {
+  --box: 28px;     /* size of a single wongoji cell */
+  --gap: 2px;      /* reserved; not actively used yet */
 }
 
 .wrap {
@@ -21,12 +32,80 @@ body {
   gap: 12px;
 }
 
+.charRow {
+  display: flex;
+  align-items: stretch;
+  width: calc(var(--box) * var(--w));
+}
+
+.cell {
+  width: var(--box);
+  height: var(--box);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 16px;
+  user-select: none;
+
+  border-top: 1px solid #bbb;
+  border-right: 1px solid #bbb;
+}
+
+.charRow .cell:first-child {
+  border-left: 1px solid #bbb;
+}
+
+
+/* =========================================================
+   BREAK ROW (LINE SEPARATORS)
+   ========================================================= */
+
+.breakRow {
+  position: relative;
+  height: calc(var(--box) / 4);
+  overflow: hidden;
+
+  border-left: 1px solid #bbb;
+  border-right: 1px solid #bbb;
+  border-top: 1px solid #bbb;
+
+  background: #fff;
+}
+
+.breakRow.last {
+  border-bottom: 1px solid #bbb;
+}
+
+.breakCount {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+
+  font-size: 6px;
+  line-height: 1;
+  color: #2c2c2c;
+
+  max-width: 100%;
+  white-space: nowrap;
+}
+
+.breakCount:empty {
+  display: none;
+}
+
+
+/* =========================================================
+   VISUALS / COSMETIC (SAFE TO TWEAK)
+   ========================================================= */
+
 h1 {
   font-size: 18px;
   margin: 0 0 6px;
 }
 
-/* Make the output panel stop looking like a second frame */
 .panel.output {
   border: none;
   padding: 0;
@@ -34,14 +113,15 @@ h1 {
 }
 
 textarea {
-  display: block;
   width: 100%;
-  box-sizing: border-box;
+  display: block;
   min-height: 160px;
   resize: vertical;
+
   border-radius: 12px;
   border: 1px solid #ccc;
   padding: 10px;
+
   font-size: 14px;
 }
 
@@ -72,16 +152,6 @@ textarea {
   width: 110px;
 }
 
-button {
-  padding: 10px 14px;
-  border-radius: 12px;
-  border: 1px solid #111;
-  background: #111;
-  color: #fff;
-  font-weight: 700;
-  cursor: pointer;
-}
-
 .stats {
   margin-top: 10px;
   font-size: 14px;
@@ -98,101 +168,33 @@ button {
   margin-left: 6px;
 }
 
-.badge.ok { border-color: #1f7a1f; }
-.badge.bad { border-color: #b00020; }
-
-.grid {
-  overflow: auto;
-  padding: 10px;
-  background: #fafafa;
-  border-radius: 12px;
-  border: 1px solid #eee;
+.badge.ok {
+  border-color: #1f7a1f;
 }
 
-/* Output container should NOT add extra frames; grid itself is the frame */
+.badge.bad {
+  border-color: #b00020;
+}
+
+
+/* =========================================================
+   GRID CONTAINER (NO FRAMING — GRID IS THE FRAME)
+   ========================================================= */
+
 .grid {
   overflow: auto;
-  padding: 0;           /* remove padding that creates the “double frame” feel */
+  padding: 0;
   background: transparent;
   border: none;
   border-radius: 0;
 }
 
-/* Character row = boxes */
-.charRow {
-  display: flex;
-  align-items: stretch;
-}
 
-/* Break row = ONE spanning cell inside the grid */
-.breakRow {
-  position: relative;
-  height: calc(var(--box) / 4);
-  background: #fff;
+/* =========================================================
+   CELL STATES
+   ========================================================= */
 
-  border-left: 1px solid #bbb;
-  border-right: 1px solid #bbb;
-  border-top: 1px solid #bbb;
-
-  overflow: hidden;
-}
-
-
-/* For the very last break row, add bottom border to close the grid */
-.breakRow.last {
-  border-bottom: 1px solid #bbb;
-}
-
-/* Count label INSIDE the spanning cell */
-.breakCount {
-  position: absolute;
-  right: 4px;
-  top: 50%;
-  transform: translateY(-50%);
-
-  font-size: 6px;
-  line-height: 1;
-  color: #2c2c2c;
-
-  /* ensure it never pushes past the border */
-  max-width: 100%;
-  white-space: nowrap;
-}
-.breakCount:empty {
-  display: none;
-}
-
-
-
-
-.cell {
-  width: var(--box);
-  height: var(--box);
-  background: #fff;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  font-size: 16px;
-  user-select: none;
-
-  border-top: 1px solid #bbb;
-  border-right: 1px solid #bbb;
-}
-
-.charRow .cell:first-child {
-  border-left: 1px solid #bbb;
-}
-.charRow {
-  width: calc(var(--box) * var(--w));
-}
-
-
-.cell.unused {
-  background: #fff;
-}
-
+.cell.unused,
 .cell.usedBlank {
   background: #fff;
 }
@@ -204,13 +206,10 @@ button {
   outline-offset: -1px;
 }
 
-/* Punctuation left-aligned (except dash tokens, which aren’t rendered as single punctuation cells) */
+/* Single-character punctuation alignment */
 .cell.punct {
   justify-content: flex-start;
   padding-left: 4px;
 }
 
 
-@media (max-width: 900px) {
-  :root { --box: 26px; }
-}
