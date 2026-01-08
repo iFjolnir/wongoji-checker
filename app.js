@@ -247,8 +247,6 @@ function render() {
 
   updateBoxSizeForViewport(width);
 
-  elGrid.style.setProperty("--w", String(width));
-
   const limitEnabled = elLimitOn.checked;
   const minLimit = elMinLimit.value.trim() === "" ? null : Number(elMinLimit.value);
   const maxLimit = elMaxLimit.value.trim() === "" ? null : Number(elMaxLimit.value);
