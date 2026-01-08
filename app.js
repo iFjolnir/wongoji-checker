@@ -213,25 +213,19 @@ const elMaxLimit = document.getElementById("maxLimit");
 const elStats = document.getElementById("stats");
 const elGrid = document.getElementById("grid");
 
-function updateBoxSizeForViewport(width) {
-  // padding applied to <body>
-  const BODY_PADDING = 16 * 2; // left + right
+function updateBoxSizeForViewport(columns) {
+  const grid = document.getElementById("grid");
+  if (!grid) return;
 
-  // scrollbar safety buffer (mobile browsers lie)
-  const SAFETY = 8;
+  const rect = grid.getBoundingClientRect();
 
-  // available horizontal space
-  const available =
-    window.visualViewport
-      ? window.visualViewport.width
-      : window.innerWidth;
+  // Safety buffer for borders + rounding + mobile weirdness
+  const SAFETY = 4;
 
-  const usableWidth = available - BODY_PADDING - SAFETY;
+  const usableWidth = rect.width - SAFETY;
 
-  // compute max box size that fits N columns
-  const boxSize = Math.floor(usableWidth / width);
+  const boxSize = Math.floor(usableWidth / columns);
 
-  // clamp so it never gets ridiculous
   const clamped = Math.max(18, Math.min(boxSize, 32));
 
   document.documentElement.style.setProperty(
@@ -239,6 +233,7 @@ function updateBoxSizeForViewport(width) {
     `${clamped}px`
   );
 }
+
 
 function render() {
   const text = elText.value || "";
