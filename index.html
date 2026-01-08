@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Wongoji Fit Checker</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="wrap">
+    <h1>원고지 Fit Checker</h1>
+
+    <section class="panel">
+      <label for="text">Text</label>
+      <textarea id="text" placeholder="Paste your essay here"></textarea>
+
+      <div class="controls">
+        <label>Width
+          <select id="width">
+            <option value="20">20</option>
+            <option value="25">25</option>
+          </select>
+        </label>
+
+          <label class="limitRow">
+            <input type="checkbox" id="limitOn" />
+            Limit
+          </label>
+
+            <label class="limitRow">
+              Min
+              <input type="number" id="minLimit" placeholder="e.g. 300" min="0" />
+            </label>
+
+            <label class="limitRow">
+              Max
+              <input type="number" id="maxLimit" value="400" min="1" />
+            </label>
+
+      </div>
+
+      <div id="stats" class="stats"></div>
+    </section>
+
+    <section class="panel output">
+      <div id="grid" class="grid"></div>
+    </section>
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
