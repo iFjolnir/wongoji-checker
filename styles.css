@@ -35,8 +35,8 @@ body {
 .charRow {
   display: flex;
   align-items: stretch;
-  width: calc(var(--box) * var(--w));
 }
+
 
 .cell {
   width: var(--box);
@@ -185,6 +185,8 @@ textarea {
 
 .grid {
   overflow: auto;
+  overflow-x: auto;
+  max-width: 100%;
   padding: 0;
   background: transparent;
   border: none;
